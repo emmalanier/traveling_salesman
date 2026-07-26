@@ -21,6 +21,9 @@ class destination
     std::string m_name;
 
   public :
+    destination();
+    destination(double, double, double, std::string);
+
     double get_lat();
     double get_long();
     double get_alt();
