@@ -21,3 +21,8 @@ std::string destination::get_name()
 {
   return m_name;
 }
+
+void destination::set_lat(const double& lat)
+{
+  m_lat = lat;
+}
