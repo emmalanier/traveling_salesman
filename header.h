@@ -10,6 +10,8 @@
 #include <fstream>
 #include <vector>
 
+#define EARTH_RADIUS 6.370e06
+
 class destination
 {
   private :
@@ -28,6 +30,8 @@ class destination
     void set_long(const double&);
     void set_alt(const double&);
     void set_name(const std::string&);
+
+    double geodesic_distance_to(destination&);
 };
 
 #endif //HEADER_H
