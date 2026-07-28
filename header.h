@@ -11,26 +11,35 @@
 #include <vector>
 
 #define EARTH_RADIUS 6.370e06
+#define MINUTE 1.00/60.0
+#define SECOND 1.00/3600.0
+
+struct coordinate
+{
+  double degrees;
+  double minutes;
+  double seconds;
+};
 
 class destination
 {
   private :
-    double m_lat;
-    double m_long;
+    coordinate m_lat;
+    coordinate m_long;
     double m_alt;
     std::string m_name;
 
   public :
     destination();
-    destination(double, double, double, std::string);
+    destination(coordinate, coordinate, double, std::string);
 
-    double get_lat();
-    double get_long();
+    coordinate get_lat();
+    coordinate get_long();
     double get_alt();
     std::string get_name();
 
-    void set_lat(const double&);
-    void set_long(const double&);
+    void set_lat(const coordinate&);
+    void set_long(const coordinate&);
     void set_alt(const double&);
     void set_name(const std::string&);
 

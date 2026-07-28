@@ -6,26 +6,24 @@
 
 destination:: destination()
 {
-    m_lat=0;
-    m_long=0;
     m_alt=0;
     m_name=" ";
 }
 
-destination::destination(double lat, double long, double alt, std::string name)
+destination::destination(coordinate lat, coordinate longitude, double alt, std::string name)
 {
   m_lat=lat;
-  m_long=long;
+  m_long=longitude;
   m_alt=alt;
   m_name=name;
 }
 
-double destination::get_lat()
+coordinate destination::get_lat()
 {
   return m_lat;
 }
 
-double destination::get_long()
+coordinate destination::get_long()
 {
   return m_long;
 }
@@ -40,14 +38,14 @@ std::string destination::get_name()
   return m_name;
 }
 
-void destination::set_lat(const double& lat)
+void destination::set_lat(const coordinate& lat)
 {
   m_lat = lat;
 }
 
-void destination::set_long(const double& long)
+void destination::set_long(const coordinate& longitude)
 {
-  m_long = long;
+  m_long = longitude;
 }
 
 void destination::set_alt(const double& alt)
@@ -58,4 +56,10 @@ void destination::set_alt(const double& alt)
 void destination::set_name(const std::string& name)
 {
   m_name = name;
+}
+
+double destination::geodesic_distance_to(destination& dest)
+{
+  double result;
+
 }
