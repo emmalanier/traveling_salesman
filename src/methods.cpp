@@ -51,8 +51,7 @@ void destination::set_name(const std::string& name)
 
 void destination::compute_cart_coordinates()
 {
-  this->convert_to_sec();
-
+  convert_to_sec();
   m_coordinates.cart.x = EARTH_RADIUS * cos(m_coordinates.geo.longi.total_sec*SECOND) * cos(m_coordinates.geo.lat.total_sec*SECOND);
   m_coordinates.cart.y = EARTH_RADIUS * cos(m_coordinates.geo.lat.total_sec*SECOND) * sin(m_coordinates.geo.longi.total_sec*SECOND);
   m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND);
@@ -62,14 +61,7 @@ void destination::compute_cart_coordinates()
 //{
 //  double result;
 
-//}
-
-double destination::geodesic_distance_to(destination& dest)
-{
-  double result;
-
-
-}
+//
 
 void destination::convert_to_sec()
 {
@@ -95,7 +87,7 @@ void destination::convert_to_sec()
 }
 
 
-double cart_distance_between(const destination& dest_1, const destination& dest_2)
+double cart_distance_between(destination& dest_1, destination& dest_2)
 {
   double results;
 
@@ -110,4 +102,20 @@ double cart_distance_between(const destination& dest_1, const destination& dest_
   results = sqrt(x_dist*x_dist + y_dist*y_dist + z_dist*z_dist);
 
   return results;
+}
+
+double geodesic_distance_to(destination& dest_1, destination& dest_2)
+{
+  double result = 0.0;
+  double cart_dist = 0.0;
+  double half_cart_dist = 0.0;
+  double central_angle = 0.0;
+
+  cart_dist = cart_distance_between(dest_1, dest_2);
+  half_cart_dist = cart_dist / 2.0;
+  central_angle = 2.0*(asin(half_cart_dist / EARTH_RADIUS));
+
+  result = central_angle * (2.0*M_PI*EARTH_RADIUS);
+
+  return result;
 }

@@ -68,6 +68,6 @@ class destination
     void convert_to_sec();
 };
 
-double cart_distance_between(const destination&, const destination&);
+double cart_distance_between(destination&, destination&);
 
 #endif //HEADER_H
