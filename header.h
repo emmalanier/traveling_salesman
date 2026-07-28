@@ -53,13 +53,11 @@ class destination
     destination();
     destination(coordinates, double, std::string);
 
-    coordinate get_lat();
-    coordinate get_long();
+    coordinates get_coordinates();
     double get_alt();
     std::string get_name();
 
-    void set_lat(const coordinate&);
-    void set_long(const coordinate&);
+    void set_coordinates(const coordinates&);
     void set_alt(const double&);
     void set_name(const std::string&);
 
