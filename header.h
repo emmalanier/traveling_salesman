@@ -14,24 +14,44 @@
 #define MINUTE 1.00/60.0
 #define SECOND 1.00/3600.0
 
-struct coordinate
+struct sexagesimal_coordinates
 {
-  double degrees;
-  double minutes;
-  double seconds;
+  bool is_positive;
+  int degrees;
+  int minutes;
+  int seconds;
+  int total_sec;
+};
+
+struct geodesic_coordinates
+{
+  sexagesimal_coordinates lat;
+  sexagesimal_coordinates longi;
+};
+
+struct cartesian_coordinates
+{
+  double x;
+  double y;
+  double z;
+};
+
+struct coordinates
+{
+  geodesic_coordinates geo;
+  cartesian_coordinates cart;
 };
 
 class destination
 {
   private :
-    coordinate m_lat;
-    coordinate m_long;
+    coordinates m_coordinates;
     double m_alt;
     std::string m_name;
 
   public :
     destination();
-    destination(coordinate, coordinate, double, std::string);
+    destination(coordinates, double, std::string);
 
     coordinate get_lat();
     coordinate get_long();
@@ -43,7 +63,13 @@ class destination
     void set_alt(const double&);
     void set_name(const std::string&);
 
+    //double cartesian_distance_to(destination&);
     double geodesic_distance_to(destination&);
+
+    void compute_cart_coordinates();
+    void convert_to_sec();
 };
+
+double cart_distance_between(const destination&, const destination&);
 
 #endif //HEADER_H
