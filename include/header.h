@@ -61,13 +61,14 @@ class destination
     void set_alt(const double&);
     void set_name(const std::string&);
 
-    //double cartesian_distance_to(destination&);
-    double geodesic_distance_to(destination&);
-
     void compute_cart_coordinates();
     void convert_to_sec();
 };
 
 double cart_distance_between(destination&, destination&);
+double geodesic_distance_between(destination&, destination&);
+
+//Two methods will be implemented, and compared
+std::vector<destination> optimised_route_1(std::vector<destination>&, destination&);
 
 #endif //HEADER_H

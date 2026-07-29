@@ -1,6 +1,6 @@
 //METHODS.CPP//
 
-//2do : implement constructors, CMake
+//2do : minimisation, checking units
 
 #include "header.h"
 
@@ -57,12 +57,6 @@ void destination::compute_cart_coordinates()
   m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND);
 }
 
-//double destination::cartesian_distance_to(destination& dest)
-//{
-//  double result;
-
-//
-
 void destination::convert_to_sec()
 {
   int result;
@@ -104,7 +98,7 @@ double cart_distance_between(destination& dest_1, destination& dest_2)
   return results;
 }
 
-double geodesic_distance_to(destination& dest_1, destination& dest_2)
+double geodesic_distance_between(destination& dest_1, destination& dest_2)
 {
   double result = 0.0;
   double cart_dist = 0.0;
@@ -118,4 +112,50 @@ double geodesic_distance_to(destination& dest_1, destination& dest_2)
   result = central_angle * (2.0*M_PI*EARTH_RADIUS);
 
   return result;
+}
+
+std::vector<destination> optimised_route_1(std::vector<destination>& vec, destination& start)
+{
+  double shortest_distance = 0.0;
+  double current_distance = 0.0;
+
+  destination closest_step;
+  int closest_step_index = 0;
+
+  std::vector<destination> results;
+  results.push_back(start);
+  destination last_step = start;
+  std::vector<destination> steps_left = vec;
+
+  //2 do : handling case where steps_left[0]!=start
+  steps_left.erase(steps_left.begin() + 0);
+
+  while(steps_left.size() > 0)
+  {
+    //Take last results element
+    last_step = results.back();
+
+    shortest_distance = geodesic_distance_between(last_step, steps_left[0]);
+    //Compute distance to all elements in vec (will need optimization)
+    for(int i=1; i<steps_left.size(); i++)
+    {
+      current_distance = geodesic_distance_between(last_step, steps_left[i]);
+
+      if(current_distance < shortest_distance)
+      {
+        shortest_distance = current_distance;
+        closest_step = steps_left[i];
+        closest_step_index = i;
+      }
+    }
+
+    //Take closest element and push to results
+    results.push_back(closest_step);
+
+    //Remove from vec
+    steps_left.erase(steps_left.begin() + closest_step_index);
+
+  }
+
+  return results;
 }
