@@ -171,6 +171,25 @@ std::vector<destination> optimised_route_2(std::vector<destination>& vec, destin
   double current_route_distance = 0.0;
   double shortest_route_distance = 0.0;
 
+  int possibilities = factorial(vec.size()-1);
+
+  for(int i=0; i<possibilities; i++)
+  {
+    for(int j=0; j<vec.size()-1; j++)
+    {
+      current_route_distance += geodesic_distance_between(vec[j], vec[j+1]);
+    }
+
+    if(current_route_distance < shortest_route_distance || i==0)
+    {
+      shortest_route_distance = current_route_distance;
+      results = vec;
+    }
+
+    current_route_distance = 0.0;
+  }
+
+
 
 
   return results;
@@ -215,4 +234,23 @@ int get_start_index(std::vector<destination>& vec, destination& start)
   }
 
   return result;
+}
+
+int factorial(int n)
+{
+  int result = 1;
+
+  for(int i=1; i<=n; i++)
+  {
+    result *= i;
+  }
+
+  return result;
+}
+
+void permutate(std::vector<destination>& vec, int index_1, int index_2)
+{
+  destination inter_var = vec[index_1];
+  vec[index_1] = vec[index_2];
+  vec[index_2] = inter_var;
 }
