@@ -127,8 +127,7 @@ std::vector<destination> optimised_route_1(std::vector<destination>& vec, destin
   destination last_step = start;
   std::vector<destination> steps_left = vec;
 
-  //2 do : handling case where steps_left[0]!=start
-  steps_left.erase(steps_left.begin() + 0);
+  rm_start(steps_left, start);
 
   while(steps_left.size() > 0)
   {
@@ -158,4 +157,62 @@ std::vector<destination> optimised_route_1(std::vector<destination>& vec, destin
   }
 
   return results;
+}
+
+std::vector<destination> optimised_route_2(std::vector<destination>& vec, destination& start)
+{
+  std::vector<destination> results;
+  int start_index = get_start_index(vec, start);
+  destination inter_var = vec[0];
+
+  vec[0] = start;
+  vec[start_index] = inter_var;
+
+  double current_route_distance = 0.0;
+  double shortest_route_distance = 0.0;
+
+
+
+  return results;
+}
+
+std::vector<std::string> read_inputs_from_file(std::string filename)
+{
+  std::vector<std::string> results;
+  return results;
+}
+
+std::vector<destination> format_inputs(std::vector<std::string>& vec)
+{
+  std::vector<destination> results;
+
+  return results;
+}
+
+void rm_start(std::vector<destination>& vec, destination& start)
+{
+  for(int i=0; i<vec.size(); i++)
+  {
+    if(vec[i].get_name() == start.get_name())
+    {
+      vec.erase(vec.begin() + i);
+      break;
+    }
+  }
+}
+
+int get_start_index(std::vector<destination>& vec, destination& start)
+{
+  int result = 0;
+
+  for(int i=0; i<vec.size(); i++)
+  {
+    if(vec[i].get_name() == start.get_name())
+    {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
 }

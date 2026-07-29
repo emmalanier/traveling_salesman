@@ -70,5 +70,14 @@ double geodesic_distance_between(destination&, destination&);
 
 //Two methods will be implemented, and compared
 std::vector<destination> optimised_route_1(std::vector<destination>&, destination&);
+std::vector<destination> optimised_route_2(std::vector<destination>&, destination&);
+
+//Inputs reading
+std::vector<std::string> read_inputs_from_file(std::string fn);
+
+//Inputs formatting
+std::vector<destination> format_inputs(std::vector<std::string>&);
+void rm_start(std::vector<destination>&, destination&);
+int get_start_index(std::vector<destination>&, destination&);
 
 #endif //HEADER_H
