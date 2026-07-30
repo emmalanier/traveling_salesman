@@ -10,6 +10,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <cctype>
 
 #define EARTH_RADIUS 6.370e06
 #define MINUTE 1.00/60.0

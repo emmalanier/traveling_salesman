@@ -1,0 +1,7 @@
+//Format to use when filling the file given to the programm//
+
+destination_name_1 : {lat : int° int' int''} ; {long : int° int' int''}
+destination_name_2 : {lat : int° int' int''} ; {long : int° int' int''}
+destination_name_3 : {lat : int° int' int''} ; {long : int° int' int''}
+
+etc

@@ -221,6 +221,60 @@ std::vector<destination> format_inputs(std::vector<std::string>& vec)
 {
   std::vector<destination> results;
 
+  for(int i=0; i<vec.size(); i++)
+  {
+    results.push_back(destination());
+    std::string name;
+    std::string buffer = vec[i];
+    std::string lat_str;
+    std::string longi_str;
+    sexagesimal_coordinates lat;
+    sexagesimal_coordinates longi;
+
+    bool name_found = false;
+    bool lat_found = false;
+    bool longi_found = false;
+    
+    for(int j=0; j<buffer.size(); j++)
+    {
+      if(buffer[j] == ';')
+      {
+        name_found = true;
+      }
+
+      if(!name_found)
+      {
+        name += buffer[j];
+      }
+
+      else if(name_found && !lat_found)
+      {
+        if(!isalnum(buffer[j]))
+        {
+          continue;
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          lat_str += buffer[j];
+        }
+
+        else if(buffer[j] == '°' || buffer[j] == '\'')
+        {
+          lat.degrees = std::stoi(lat_str);
+          lat_str = "";
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          
+        }
+
+      }
+    }
+    results[i].set_name(name);
+  }
+
   return results;
 }
 
