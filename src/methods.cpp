@@ -168,36 +168,52 @@ std::vector<destination> optimised_route_2(std::vector<destination>& vec, destin
   vec[0] = start;
   vec[start_index] = inter_var;
 
+  std::vector<destination> current_route = vec;
+
   double current_route_distance = 0.0;
   double shortest_route_distance = 0.0;
 
   int possibilities = factorial(vec.size()-1);
 
-  for(int i=0; i<possibilities; i++)
+  do
   {
-    for(int j=0; j<vec.size()-1; j++)
+    for(int i=0; i<vec.size()-1; i++)
     {
-      current_route_distance += geodesic_distance_between(vec[j], vec[j+1]);
+      current_route_distance += geodesic_distance_between(current_route[i], current_route[i+1]);
     }
 
-    if(current_route_distance < shortest_route_distance || i==0)
+    if(current_route_distance < shortest_route_distance)
     {
       shortest_route_distance = current_route_distance;
-      results = vec;
+      results = current_route;
     }
 
     current_route_distance = 0.0;
-  }
-
-
-
+  }while(std::next_permutation(current_route.begin()+1, current_route.end()));
 
   return results;
 }
 
-std::vector<std::string> read_inputs_from_file(std::string filename)
+std::vector<std::string> read_inputs_from_file(const std::string& filename)
 {
   std::vector<std::string> results;
+
+  std::ifstream file(filename);
+  std::string buffer;
+  if(file.is_open())
+  {
+    while(getline(file, buffer))
+      {
+        results.push_back(buffer);
+      }
+    file.close();
+  }
+
+  else
+  {
+    std::cerr << "Unable to open file" << filename << std::endl ;
+  }
+
   return results;
 }
 

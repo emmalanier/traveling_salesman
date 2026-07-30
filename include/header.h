@@ -9,6 +9,7 @@
 #include <cmath>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 #define EARTH_RADIUS 6.370e06
 #define MINUTE 1.00/60.0
@@ -63,6 +64,11 @@ class destination
 
     void compute_cart_coordinates();
     void convert_to_sec();
+
+    bool operator<(const destination& other) const
+    {
+      return m_name < other.m_name;
+    }
 };
 
 double cart_distance_between(destination&, destination&);
@@ -73,7 +79,7 @@ std::vector<destination> optimised_route_1(std::vector<destination>&, destinatio
 std::vector<destination> optimised_route_2(std::vector<destination>&, destination&);
 
 //Inputs reading
-std::vector<std::string> read_inputs_from_file(std::string fn);
+std::vector<std::string> read_inputs_from_file(const std::string&);
 
 //Inputs formatting
 std::vector<destination> format_inputs(std::vector<std::string>&);
