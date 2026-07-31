@@ -173,8 +173,6 @@ std::vector<destination> optimised_route_2(std::vector<destination>& vec, destin
   double current_route_distance = 0.0;
   double shortest_route_distance = 0.0;
 
-  int possibilities = factorial(vec.size()-1);
-
   do
   {
     for(int i=0; i<vec.size()-1; i++)
@@ -259,7 +257,7 @@ std::vector<destination> format_inputs(std::vector<std::string>& vec)
           lat_str += buffer[j];
         }
 
-        else if(buffer[j] == '°' || buffer[j] == '\'')
+        else if(buffer[j] == '°')
         {
           lat.degrees = std::stoi(lat_str);
           lat_str = "";
@@ -267,9 +265,111 @@ std::vector<destination> format_inputs(std::vector<std::string>& vec)
 
         else if(isdigit(buffer[j]))
         {
-          
+          lat_str += buffer[j];
         }
 
+        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
+        {
+          lat.minutes = std::stoi(lat_str);
+          lat_str = "";
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          lat_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
+        {
+          lat.minutes = std::stoi(lat_str);
+          lat_str = "";
+        }
+
+        else if(buffer[j] == 'N' || buffer[j] == 'S')
+        {
+          lat.seconds = std::stoi(lat_str);
+          lat_str = "";
+          lat_found = true;
+
+          if(buffer[j] == 'N')
+          {
+            lat.is_positive = true;
+          }
+
+          else
+          {
+            lat.is_positive = false;
+          }
+        }
+
+        else if(buffer[j] == '}')
+        {
+          lat_found = true;
+        }
+
+      }
+
+      else if(name_found && lat_found && !longi_found)
+      {
+        if(!isalnum(buffer[j]))
+        {
+          continue;
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '°')
+        {
+          longi.degrees = std::stoi(longi_str);
+          longi_str = "";
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
+        {
+          longi.minutes = std::stoi(longi_str);
+          longi_str = "";
+        }
+
+        else if(isdigit(buffer[j]))
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
+        {
+          longi.minutes = std::stoi(longi_str);
+          longi_str = "";
+        }
+
+        else if(buffer[j] == 'E' || buffer[j] == 'W')
+        {
+          longi.seconds = std::stoi(longi_str);
+          longi_str = "";
+          longi_found = true;
+
+          if(buffer[j] == 'E')
+          {
+            longi.is_positive = true;
+          }
+
+          else
+          {
+            longi.is_positive = false;
+          }
+        }
+
+        else if(buffer[j] == '}')
+        {
+          longi_found = true;
+        }
       }
     }
     results[i].set_name(name);
@@ -277,6 +377,7 @@ std::vector<destination> format_inputs(std::vector<std::string>& vec)
 
   return results;
 }
+
 
 void rm_start(std::vector<destination>& vec, destination& start)
 {
@@ -304,23 +405,4 @@ int get_start_index(std::vector<destination>& vec, destination& start)
   }
 
   return result;
-}
-
-int factorial(int n)
-{
-  int result = 1;
-
-  for(int i=1; i<=n; i++)
-  {
-    result *= i;
-  }
-
-  return result;
-}
-
-void permutate(std::vector<destination>& vec, int index_1, int index_2)
-{
-  destination inter_var = vec[index_1];
-  vec[index_1] = vec[index_2];
-  vec[index_2] = inter_var;
-}
+} 

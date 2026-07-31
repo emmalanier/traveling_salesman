@@ -88,6 +88,6 @@ void rm_start(std::vector<destination>&, destination&);
 int get_start_index(std::vector<destination>&, destination&);
 
 //Math
-int factorial(int);
-void permutate(std::vector<destination>&, int, int);
+
+
 #endif //HEADER_H
