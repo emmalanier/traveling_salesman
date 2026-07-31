@@ -84,6 +84,7 @@ std::vector<std::string> read_inputs_from_file(const std::string&);
 
 //Inputs formatting
 std::vector<destination> format_inputs(std::vector<std::string>&);
+destination format_line(std::string&);
 void rm_start(std::vector<destination>&, destination&);
 int get_start_index(std::vector<destination>&, destination&);
 

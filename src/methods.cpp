@@ -221,159 +221,9 @@ std::vector<destination> format_inputs(std::vector<std::string>& vec)
 
   for(int i=0; i<vec.size(); i++)
   {
-    results.push_back(destination());
-    std::string name;
-    std::string buffer = vec[i];
-    std::string lat_str;
-    std::string longi_str;
-    sexagesimal_coordinates lat;
-    sexagesimal_coordinates longi;
-
-    bool name_found = false;
-    bool lat_found = false;
-    bool longi_found = false;
-    
-    for(int j=0; j<buffer.size(); j++)
-    {
-      if(buffer[j] == ';')
-      {
-        name_found = true;
-      }
-
-      if(!name_found)
-      {
-        name += buffer[j];
-      }
-
-      else if(name_found && !lat_found)
-      {
-        if(!isalnum(buffer[j]))
-        {
-          continue;
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          lat_str += buffer[j];
-        }
-
-        else if(buffer[j] == '°')
-        {
-          lat.degrees = std::stoi(lat_str);
-          lat_str = "";
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          lat_str += buffer[j];
-        }
-
-        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
-        {
-          lat.minutes = std::stoi(lat_str);
-          lat_str = "";
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          lat_str += buffer[j];
-        }
-
-        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
-        {
-          lat.minutes = std::stoi(lat_str);
-          lat_str = "";
-        }
-
-        else if(buffer[j] == 'N' || buffer[j] == 'S')
-        {
-          lat.seconds = std::stoi(lat_str);
-          lat_str = "";
-          lat_found = true;
-
-          if(buffer[j] == 'N')
-          {
-            lat.is_positive = true;
-          }
-
-          else
-          {
-            lat.is_positive = false;
-          }
-        }
-
-        else if(buffer[j] == '}')
-        {
-          lat_found = true;
-        }
-
-      }
-
-      else if(name_found && lat_found && !longi_found)
-      {
-        if(!isalnum(buffer[j]))
-        {
-          continue;
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          longi_str += buffer[j];
-        }
-
-        else if(buffer[j] == '°')
-        {
-          longi.degrees = std::stoi(longi_str);
-          longi_str = "";
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          longi_str += buffer[j];
-        }
-
-        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
-        {
-          longi.minutes = std::stoi(longi_str);
-          longi_str = "";
-        }
-
-        else if(isdigit(buffer[j]))
-        {
-          longi_str += buffer[j];
-        }
-
-        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
-        {
-          longi.minutes = std::stoi(longi_str);
-          longi_str = "";
-        }
-
-        else if(buffer[j] == 'E' || buffer[j] == 'W')
-        {
-          longi.seconds = std::stoi(longi_str);
-          longi_str = "";
-          longi_found = true;
-
-          if(buffer[j] == 'E')
-          {
-            longi.is_positive = true;
-          }
-
-          else
-          {
-            longi.is_positive = false;
-          }
-        }
-
-        else if(buffer[j] == '}')
-        {
-          longi_found = true;
-        }
-      }
-    }
-    results[i].set_name(name);
+    results.push_back(format_line(vec[i]));
   }
+
 
   return results;
 }
@@ -406,3 +256,329 @@ int get_start_index(std::vector<destination>& vec, destination& start)
 
   return result;
 } 
+
+destination format_line(std::string& line_to_format)
+{
+  destination result;
+  std::string name;
+  std::string buffer;
+  coordinates my_coord;
+  geodesic_coordinates geo_coord ;
+  int index = 0;
+  bool deg_found = false;
+  bool min_found = false;
+  bool sec_found = false;
+
+  std::cout<<"working until line 272"<<std::endl;
+
+  for(int i=0 ; i<line_to_format.size(); i++)
+  {
+    if(line_to_format[i] == ':')
+    {
+      index=i;
+      break;
+    }
+
+    name += line_to_format[i];
+  }
+  std::cout<<"working until line 284"<<std::endl;
+  result.set_name(name);
+
+  for(int i=index ; i<line_to_format.size(); i++)
+  {
+    if(line_to_format[i] == '}')
+    {
+      index = i ;
+      break;
+    }
+
+    if(isdigit(line_to_format[i]))
+    {
+      buffer += line_to_format[i];
+      std::cout<<"working until line 298"<<std::endl;
+      std::cout<<buffer<<std::endl;
+    }
+
+    else if(isalpha(line_to_format[i]))
+    {
+      if(line_to_format[i]=='N')
+      {
+        geo_coord.lat.is_positive=true;
+      }
+
+      else if(line_to_format[i]=='S')
+      {
+        geo_coord.lat.is_positive=false;
+      }
+    }
+
+    else if(line_to_format[i] == 176)
+    {
+      deg_found = true;
+      geo_coord.lat.degrees = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\'')
+    {
+      min_found = true;
+      geo_coord.lat.minutes = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\"')
+    {
+      sec_found = true;
+      geo_coord.lat.seconds = std::stoi(buffer);
+      buffer = "";
+    }
+    
+  }
+
+  for(int i=index ; i<line_to_format.size(); i++)
+  {
+    if(line_to_format[i] == '}')
+    {
+      index = i ;
+      break;
+    }
+
+    else if(line_to_format[i] == 176)
+    {
+      deg_found = true;
+      geo_coord.longi.degrees = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\'')
+    {
+      min_found = true;
+      geo_coord.longi.minutes = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\"')
+    {
+      sec_found = true;
+      geo_coord.longi.seconds = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(isdigit(line_to_format[i]))
+    {
+      buffer += line_to_format[i];
+    }
+
+    else if(isalpha(line_to_format[i]))
+    {
+      if(line_to_format[i]=='E')
+      {
+        geo_coord.longi.is_positive=true;
+      }
+
+      else if(line_to_format[i]=='W')
+      {
+        geo_coord.longi.is_positive=false;
+      }
+    }
+
+    else if(line_to_format[i] == 176)
+    {
+      deg_found = true;
+      geo_coord.longi.degrees = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\'')
+    {
+      min_found = true;
+      geo_coord.longi.minutes = std::stoi(buffer);
+      buffer = "";
+    }
+
+    else if(line_to_format[i] == '\"')
+    {
+      sec_found = true;
+      geo_coord.longi.seconds = std::stoi(buffer);
+      buffer = "";
+    }
+    
+  }
+
+  my_coord.cart = {0, 0, 0} ;
+  my_coord.geo =  geo_coord;
+  result.set_coordinates(my_coord);
+
+  return result;
+}
+
+/*
+    std::string name;
+    std::string buffer = vec[i];
+    std::string lat_str;
+    std::string longi_str;
+    sexagesimal_coordinates lat;
+    sexagesimal_coordinates longi;
+
+    bool name_found = false;
+    bool lat_found = false;
+    bool longi_found = false;
+    bool degrees_found = false;
+    bool minutes_found = false;
+    bool seconds_found = false;
+    
+    for(int j=0; j<buffer.size(); j++)
+    {
+      if(buffer[j] == ':')
+      {
+        name_found = true;
+      }
+
+      if(!name_found)
+      {
+        name += buffer[j];
+      }
+
+      else if(name_found && !lat_found)
+      {
+        if(!isalnum(buffer[j]))
+        {
+          continue;
+        }
+
+        else if(isdigit(buffer[j]) && !degrees_found)
+        {
+          lat_str += buffer[j];
+        }
+
+        else if(buffer[j] == '°')
+        {
+          std::cout << "lat_str: " << lat_str << std::endl;
+          lat.degrees = std::stoi(lat_str);
+          std::cout << "lat.degrees: " << lat.degrees << std::endl;
+          lat_str = "";
+          std::cout << "lat_str: " << lat_str << std::endl;
+          degrees_found = true;
+        }
+
+        else if(isdigit(buffer[j]) && degrees_found && !minutes_found)
+        {
+          lat_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
+        {
+          lat.minutes = std::stoi(lat_str);
+          lat_str = "";
+          minutes_found = true;
+        }
+
+        else if(isdigit(buffer[j]) && minutes_found && !seconds_found)
+        {
+          lat_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
+        {
+          lat.minutes = std::stoi(lat_str);
+          lat_str = "";
+          seconds_found = true;
+        }
+
+        else if(buffer[j] == 'N' || buffer[j] == 'S')
+        {
+          lat.seconds = std::stoi(lat_str);
+          lat_str = "";
+          lat_found = true;
+
+          if(buffer[j] == 'N')
+          {
+            lat.is_positive = true;
+          }
+
+          else
+          {
+            lat.is_positive = false;
+          }
+        }
+
+        else if(buffer[j] == '}')
+        {
+          lat_found = true;
+          degrees_found = false;
+          minutes_found = false;
+          seconds_found = false;
+        }
+
+      }
+
+      else if(name_found && lat_found && !longi_found)
+      {
+        if(!isalnum(buffer[j]))
+        {
+          continue;
+        }
+
+        else if(isdigit(buffer[j]) && !degrees_found)
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '°')
+        {
+          longi.degrees = std::stoi(longi_str);
+          longi_str = "";
+          degrees_found = true;
+        }
+
+        else if(isdigit(buffer[j]) && degrees_found && !minutes_found)
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] != '\'')
+        {
+          longi.minutes = std::stoi(longi_str);
+          longi_str = "";
+          minutes_found = true;
+        }
+
+        else if(isdigit(buffer[j]) && minutes_found && !seconds_found)
+        {
+          longi_str += buffer[j];
+        }
+
+        else if(buffer[j] == '\'' && buffer[j+1] == '\'')
+        {
+          longi.minutes = std::stoi(longi_str);
+          longi_str = "";
+          seconds_found = true;
+        }
+
+        else if(buffer[j] == 'E' || buffer[j] == 'W')
+        {
+          longi.seconds = std::stoi(longi_str);
+          longi_str = "";
+          longi_found = true;
+
+          if(buffer[j] == 'E')
+          {
+            longi.is_positive = true;
+          }
+
+          else
+          {
+            longi.is_positive = false;
+          }
+        }
+
+        else if(buffer[j] == '}')
+        {
+          longi_found = true;
+        }
+      }
+    }
+    results[i].set_name(name);
+    results[i].set_coordinates(coordinates{geodesic_coordinates{lat, longi}, cartesian_coordinates{0.0, 0.0, 0.0}});
+  }
+*/

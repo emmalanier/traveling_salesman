@@ -1,8 +1,8 @@
-Lyon : {lat : 45° 45' 28'' N} ; {long : 4° 49' 56'' E}
-Paris : {lat : 48° 51' 24'' N} ; {long : 2° 21' 07'' E}
-Lille : {lat : 50° 38' 14'' N} ; {long : 3° 03' 48'' E}
-Bordeaux : {lat : 44° 50' 20'' N} ; {long : 0° 34' 20'' W}
-Strasbourg : {lat : 48° 34' 24'' N} ; {long : 7° 45' 08'' E}
-Toulouse : {lat : 43° 36' 16'' N} ; {long : 1° 26' 38'' E}
-Nantes : {lat : 47° 13' 05'' N} ; {long : 1° 33' 10'' W}
-Quimper : {lat : 47° 59' 58'' N} ; {long : 4° 05' 47'' W}
+Lyon : {lat : 45° 45' 28" N} ; {long : 4° 49' 56" E}
+Paris : {lat : 48° 51' 24" N} ; {long : 2° 21' 07" E}
+Lille : {lat : 50° 38' 14" N} ; {long : 3° 03' 48" E}
+Bordeaux : {lat : 44° 50' 20" N} ; {long : 0° 34' 20" W}
+Strasbourg : {lat : 48° 34' 24" N} ; {long : 7° 45' 08" E}
+Toulouse : {lat : 43° 36' 16" N} ; {long : 1° 26' 38" E}
+Nantes : {lat : 47° 13' 05" N} ; {long : 1° 33' 10" W}
+Quimper : {lat : 47° 59' 58" N} ; {long : 4° 05' 47" W}
