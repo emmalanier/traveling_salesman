@@ -19,6 +19,9 @@ int main()
     std::cout << destinations[i].get_coordinates().geo.lat.degrees << "°" << destinations[i].get_coordinates().geo.lat.minutes << "'" << destinations[i].get_coordinates().geo.lat.seconds << "''" << std::endl;
     std::cout << destinations[i].get_coordinates().geo.longi.degrees << "°" << destinations[i].get_coordinates().geo.longi.minutes << "'" << destinations[i].get_coordinates().geo.longi.seconds << "''" << std::endl;
   }
+  //Everything above working
+
+  
 
   return 0;
 }

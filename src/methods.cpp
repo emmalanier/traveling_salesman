@@ -209,7 +209,7 @@ std::vector<std::string> read_inputs_from_file(const std::string& filename)
 
   else
   {
-    std::cerr << "Unable to open file" << filename << std::endl ;
+    std::cerr << "Unable to open file " << filename << std::endl ;
   }
 
   return results;
@@ -269,8 +269,6 @@ destination format_line(std::string& line_to_format)
   bool min_found = false;
   bool sec_found = false;
 
-  std::cout<<"working until line 272"<<std::endl;
-
   for(int i=0 ; i<line_to_format.size(); i++)
   {
     if(line_to_format[i] == ':')
@@ -281,22 +279,19 @@ destination format_line(std::string& line_to_format)
 
     name += line_to_format[i];
   }
-  std::cout<<"working until line 284"<<std::endl;
   result.set_name(name);
 
   for(int i=index ; i<line_to_format.size(); i++)
   {
     if(line_to_format[i] == '}')
     {
-      index = i ;
+      index = i+1 ;
       break;
     }
 
     if(isdigit(line_to_format[i]))
     {
       buffer += line_to_format[i];
-      std::cout<<"working until line 298"<<std::endl;
-      std::cout<<buffer<<std::endl;
     }
 
     else if(isalpha(line_to_format[i]))
@@ -339,7 +334,7 @@ destination format_line(std::string& line_to_format)
   {
     if(line_to_format[i] == '}')
     {
-      index = i ;
+      index = i+1 ;
       break;
     }
 
