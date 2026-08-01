@@ -1,6 +1,5 @@
 //METHODS.CPP//
 
-//2do : minimisation, checking units
 
 #include "header.h"
 
@@ -52,9 +51,9 @@ void destination::set_name(const std::string& name)
 void destination::compute_cart_coordinates()
 {
   convert_to_sec();
-  m_coordinates.cart.x = EARTH_RADIUS * cos(m_coordinates.geo.longi.total_sec*SECOND) * cos(m_coordinates.geo.lat.total_sec*SECOND);
-  m_coordinates.cart.y = EARTH_RADIUS * cos(m_coordinates.geo.lat.total_sec*SECOND) * sin(m_coordinates.geo.longi.total_sec*SECOND);
-  m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND);
+  m_coordinates.cart.x = EARTH_RADIUS * cos(m_coordinates.geo.longi.total_sec*SECOND) * cos(m_coordinates.geo.lat.total_sec*SECOND)*1.0;
+  m_coordinates.cart.y = EARTH_RADIUS * cos(m_coordinates.geo.lat.total_sec*SECOND) * sin(m_coordinates.geo.longi.total_sec*SECOND)*1.0;
+  m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND)*1.0;
 }
 
 void destination::convert_to_sec()
@@ -95,6 +94,8 @@ double cart_distance_between(destination& dest_1, destination& dest_2)
 
   results = sqrt(x_dist*x_dist + y_dist*y_dist + z_dist*z_dist);
 
+  std::cout << "Cartesian distance between " << dest_1.get_name() << " and " << dest_2.get_name() << " is : " << results << std::endl;
+
   return results;
 }
 
@@ -109,7 +110,9 @@ double geodesic_distance_between(destination& dest_1, destination& dest_2)
   half_cart_dist = cart_dist / 2.0;
   central_angle = 2.0*(asin(half_cart_dist / EARTH_RADIUS));
 
-  result = central_angle * (2.0*M_PI*EARTH_RADIUS);
+  std::cout << "Central angle between " << dest_1.get_name() << " and " << dest_2.get_name() << " is : " << central_angle << std::endl;
+
+  result = central_angle * ((2.0*M_PI*EARTH_RADIUS)/360.0);
 
   return result;
 }
