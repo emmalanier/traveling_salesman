@@ -94,8 +94,6 @@ double cart_distance_between(destination& dest_1, destination& dest_2)
 
   results = sqrt(x_dist*x_dist + y_dist*y_dist + z_dist*z_dist);
 
-  std::cout << "Cartesian distance between " << dest_1.get_name() << " and " << dest_2.get_name() << " is : " << results << std::endl;
-
   return results;
 }
 
@@ -109,8 +107,6 @@ double geodesic_distance_between(destination& dest_1, destination& dest_2)
   cart_dist = cart_distance_between(dest_1, dest_2);
   half_cart_dist = cart_dist / 2.0;
   central_angle = 2.0*(asin(half_cart_dist / EARTH_RADIUS));
-
-  std::cout << "Central angle between " << dest_1.get_name() << " and " << dest_2.get_name() << " is : " << central_angle << std::endl;
 
   result = central_angle * EARTH_RADIUS;
 
@@ -139,6 +135,8 @@ std::vector<destination> optimised_route_1(std::vector<destination>& vec, destin
 
     shortest_distance = geodesic_distance_between(last_step, steps_left[0]);
     //Compute distance to all elements in vec (will need optimization)
+    closest_step = steps_left[0];
+    closest_step_index = 0;
     for(int i=1; i<steps_left.size(); i++)
     {
       current_distance = geodesic_distance_between(last_step, steps_left[i]);
@@ -174,7 +172,7 @@ std::vector<destination> optimised_route_2(std::vector<destination>& vec, destin
   std::vector<destination> current_route = vec;
 
   double current_route_distance = 0.0;
-  double shortest_route_distance = 0.0;
+  double shortest_route_distance=1.0e19;
 
   do
   {
