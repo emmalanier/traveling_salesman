@@ -51,9 +51,9 @@ void destination::set_name(const std::string& name)
 void destination::compute_cart_coordinates()
 {
   convert_to_sec();
-  m_coordinates.cart.x = EARTH_RADIUS * cos(m_coordinates.geo.longi.total_sec*SECOND) * cos(m_coordinates.geo.lat.total_sec*SECOND)*1.0;
-  m_coordinates.cart.y = EARTH_RADIUS * cos(m_coordinates.geo.lat.total_sec*SECOND) * sin(m_coordinates.geo.longi.total_sec*SECOND)*1.0;
-  m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND)*1.0;
+  m_coordinates.cart.x = EARTH_RADIUS * cos(m_coordinates.geo.longi.total_sec*SECOND*(M_PI/180)) * cos(m_coordinates.geo.lat.total_sec*SECOND*(M_PI/180))*1.0;
+  m_coordinates.cart.y = EARTH_RADIUS * cos(m_coordinates.geo.lat.total_sec*SECOND*(M_PI/180)) * sin(m_coordinates.geo.longi.total_sec*SECOND*(M_PI/180))*1.0;
+  m_coordinates.cart.z = EARTH_RADIUS * sin(m_coordinates.geo.lat.total_sec*SECOND*(M_PI/180))*1.0;
 }
 
 void destination::convert_to_sec()
@@ -112,7 +112,7 @@ double geodesic_distance_between(destination& dest_1, destination& dest_2)
 
   std::cout << "Central angle between " << dest_1.get_name() << " and " << dest_2.get_name() << " is : " << central_angle << std::endl;
 
-  result = central_angle * ((2.0*M_PI*EARTH_RADIUS)/360.0);
+  result = central_angle * EARTH_RADIUS;
 
   return result;
 }
