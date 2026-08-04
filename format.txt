@@ -5,3 +5,15 @@ destination_name_2 : {lat : int° int' int'' S} ; {long : int° int' int'' W}
 destination_name_3 : {lat : int° int' int'' N} ; {long : int° int' int'' E}
 
 etc
+
+Examples :
+
+Nantes : {lat : 47° 13' 05" N} ; {long : 1° 33' 10" W}
+Grenoble : {lat : 45° 11' 16" N} ; {long : 5° 43' 37" E}
+Tours : {lat : 47° 23' 37" N} ; {long : 0° 41' 21" E}
+Orléans : {lat : 47° 54' 09" N} ; {long : 1° 54' 32" E}
+Dijon : {lat : 47° 19' 18" N} ; {long : 5° 02' 29" E}
+Clermont-Ferrand : {lat : 45° 46' 33" N} ; {long : 3° 04' 56" E}
+Toulon : {lat : 43° 07' 20" N} ; {long : 5° 55' 48" E}
+
+Quimper : {lat : 47° 59' 58" N} ; {long : 4° 05' 47" W}

@@ -1,16 +1,9 @@
 Lyon : {lat : 45° 45' 28" N} ; {long : 4° 49' 56" E}
 Paris : {lat : 48° 51' 24" N} ; {long : 2° 21' 07" E}
 Lille : {lat : 50° 38' 14" N} ; {long : 3° 03' 48" E}
+La Gacilly : {lat : 47° 45' 57" N} ; {long : 2° 07' 51 W}
 Bordeaux : {lat : 44° 50' 20" N} ; {long : 0° 34' 20" W}
 Strasbourg : {lat : 48° 34' 24" N} ; {long : 7° 45' 08" E}
 Toulouse : {lat : 43° 36' 16" N} ; {long : 1° 26' 38" E}
-Nantes : {lat : 47° 13' 05" N} ; {long : 1° 33' 10" W}
-Quimper : {lat : 47° 59' 58" N} ; {long : 4° 05' 47" W}
-Tours : {lat : 47° 23' 37" N} ; {long : 0° 41' 21" E}
-Orléans : {lat : 47° 54' 09" N} ; {long : 1° 54' 32" E}
-Dijon : {lat : 47° 19' 18" N} ; {long : 5° 02' 29" E}
-Clermont-Ferrand : {lat : 45° 46' 33" N} ; {long : 3° 04' 56" E}
-Toulon : {lat : 43° 07' 20" N} ; {long : 5° 55' 48" E}
 Brest : {lat : 48° 23' 27" N} ; {long : 4° 29' 08" W}
 Rennes : {lat : 48° 06' 53" N} ; {long : 1° 40' 46" W}
-Grenoble : {lat : 45° 11' 16" N} ; {long : 5° 43' 37" E}
