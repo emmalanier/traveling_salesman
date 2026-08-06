@@ -16,6 +16,7 @@ set(SOURCES
     src/main.cpp
     src/methods.cpp
     src/window.cpp
+    src/rendering_shapes.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
