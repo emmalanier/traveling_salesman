@@ -34,7 +34,7 @@ std::vector<float> format_sphere_file(std::vector<std::string>& vec)
      x_str.clear();
      y_str.clear();
      z_str.clear();
-     
+
         for(int j=0; j<vec[i].length(); j++)
         {
             if(vec[i][j]=='\n' && !got_x)
@@ -66,7 +66,7 @@ std::vector<float> format_sphere_file(std::vector<std::string>& vec)
    return results ;
 }
 
-std::vector<vertex> compute_sphere_vertices(std::vector<float>& vec)
+std::vector<vertex> compute_sphere_vertices(std::vector<float>& vec, float& radius)
 {
     std::vector<vertex> results;
     vertex point;
@@ -75,9 +75,25 @@ std::vector<vertex> compute_sphere_vertices(std::vector<float>& vec)
     float y_var;
     float z_var;
 
-    for(int i=0; i<vec.size(); i++)
-    {
+    point.r = 0.75f;
+    point.g = 0.75f;
+    point.b = 1.0f;
 
+    for(int i=0; i<vec.size()/3; i++)
+    {
+        x_var=vec[3*i];
+        y_var=vec[1+3*i];
+        z_var=vec[2+3*i];
+        
+        point.x = x_var;
+        point.y = y_var;
+        point.z = z_var;
+
+        point.nx = 1.0f*(x_var/radius);
+        point.ny = 1.0f*(y_var/radius);
+        point.nz = 1.0f*(z_var/radius);
+
+        results.push_back(point);
     }
 
     return results;
