@@ -24,11 +24,17 @@ std::vector<float> format_sphere_file(std::vector<std::string>& vec)
         x = stof(x_str);
         y = stof(y_str);
         z = stof(z_str);
+        results.push_back(x);
+        results.push_back(y);
+        results.push_back(z);
      }
 
      got_x = false;
      got_y = false;
-
+     x_str.clear();
+     y_str.clear();
+     z_str.clear();
+     
         for(int j=0; j<vec[i].length(); j++)
         {
             if(vec[i][j]=='\n' && !got_x)
