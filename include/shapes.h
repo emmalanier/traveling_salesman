@@ -17,5 +17,6 @@ struct vertex
 
 std::vector<float> format_sphere_file(std::vector<std::string>&);
 std::vector<vertex> compute_sphere_vertices(std::vector<float>&, float&);
+std::vector<int> compute_indices(std::vector<vertex>&, int&);
 
 #endif//SHAPES_H

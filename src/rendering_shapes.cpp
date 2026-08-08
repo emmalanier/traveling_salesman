@@ -98,3 +98,84 @@ std::vector<vertex> compute_sphere_vertices(std::vector<float>& vec, float& radi
 
     return results;
 }
+
+std::vector<int> compute_indices(std::vector<vertex>& vec, int& n_lat, int& n_long)
+{
+    //n_lat is the number of latitude lines, n_long the number of ongitude lines
+    //For the latitude, the poles are counted
+    std::vector<int> results;
+
+    int sq_tl;
+    int sq_tr;
+    int sq_bl;
+    int sq_br;
+
+    int upper_lat;
+    int lower_lat;
+
+    //int first_long;
+
+    int left_long;
+    int right_long;
+
+    int indice_1=0;
+    int indice_2;
+    int indice_3;
+
+    //First row
+    for(int i=1; i<=n_long; i++)
+    {
+        indice_2 = 2*i;
+        indice_3 = 1 + 2*i;
+
+        results.push_back(indice_1);
+        results.push_back(indice_2);
+        results.push_back(indice_3);
+    }
+
+    //Middle rows
+    for(int i=1; i<n_lat; i++)
+    {
+        upper_lat=i;
+        lower_lat=i+1;
+
+        for(int j=0; j<n_long; j++)
+        {
+            left_long=j;
+            right_long=j+1;
+
+            sq_tl=upper_lat+left_long;
+            sq_tr=upper_lat+right_long;
+            sq_bl=lower_lat+left_long;
+            sq_br=lower_lat+right_long;
+
+            indice_1=sq_tl;
+            indice_2=sq_bl;
+            indice_3=sq_br;
+
+            results.push_back(indice_1);
+            results.push_back(indice_2);
+            results.push_back(indice_3);
+
+            indice_1=sq_tl;
+            indice_2=sq_tr;
+            indice_3=sq_bl;
+
+            results.push_back(indice_1);
+            results.push_back(indice_2);
+            results.push_back(indice_3);
+        }
+    }
+
+    indice_1= 1 + n_lat*n_long;
+    //Last row
+    for(int i=1; i<=n_long; i++)
+    {
+        indice_2 = (n_lat-1)*i;
+        indice_3 = 1+(n_lat-1)*i;
+
+        results.push_back(indice_1);
+        results.push_back(indice_2);
+        results.push_back(indice_3);
+    }
+}
